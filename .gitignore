@@ -1,0 +1,5 @@
+/yeeyan/log/
+*.log
+*.db
+*.swp
+*.pyc
