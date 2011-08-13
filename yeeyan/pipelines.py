@@ -6,7 +6,6 @@
 import os
 import sys
 import sqlite3
-from scrapy.stats import stats
 from scrapy import log
 from scrapy import signals
 from scrapy.xlib.pydispatch import dispatcher
@@ -47,7 +46,7 @@ class YeeyanPipeline(object):
             if self.count==100:
                 self.con.commit()
                 self.count=0
-            log.msg('get passage %s'%title,level=log.INFO)
+            log.msg('get passage %s,%s'%(title,release_time),level=log.INFO)
         
     def spider_opened(self):
         if os.path.exists(self.file_path):

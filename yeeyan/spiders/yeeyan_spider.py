@@ -7,7 +7,7 @@ from yeeyan.items import YeeyanItem
 class YeeyanSpiderSpider(BaseSpider):
     name = 'yeeyan_spider'
     allowed_domains = ['yeeyan.org']
-    start_urls = ["http://article.yeeyan.org/list_a"]
+    start_urls = ["http://article.yeeyan.org/list_articles/510?&page=777"]
     count = 0
 
     def parse(self, response):
@@ -19,8 +19,9 @@ class YeeyanSpiderSpider(BaseSpider):
             url = div.x('h5/a/@href').extract()[0]
             yield self.make_requests_from_url(url).replace(callback=self.parse_content)
         #将下一页的链接继续进行处理
-        next_url = hxs.x('//div[@id="project_left"]/div[@class="publicMiddleLine"]/span/a[b="下一页"]/@href').extract()[0]
-        if not next_url:
+        try:
+            next_url = hxs.x('//div[@id="project_left"]/div[@class="publicMiddleLine"]/span/a[b="下一页"]/@href').extract()[0]
+        except Exception:
             return
         next_url = 'http://article.yeeyan.org'+next_url
       #  if self.count==10:
@@ -58,7 +59,10 @@ class YeeyanSpiderSpider(BaseSpider):
         div = hxs.x('//div[@class="jxar_author"]')
         item['author'] = div.x('.//a/text()').extract()[0]
         item['release_time'] = hxs.x('//p[@class="jxa_info"]/span[1]/text()').extract()[0]
-        item['excerpt'] = hxs.x('//p[@class="jxa_intro"]/text()').extract()[0]
+        try:
+            item['excerpt'] = hxs.x('//p[@class="jxa_intro"]/text()').extract()[0]
+        except Exception:
+            item['excerpt'] = None
         item['category'] = hxs.x('//p[@class="jxa_map"]/text()').extract()[1].split()[1]
         item['content_html'] = hxs.x('//div[@class="jxa_content"]').extract()[0]
         return item

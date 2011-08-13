@@ -1,1 +1,2 @@
 用scrapy框架写的爬虫程序，用来抓取译言网上文章内容
+yeeyan_insert_passage.py是用来向数据库中插入单篇文章用的，文章页面地址写在error_url.txt中
