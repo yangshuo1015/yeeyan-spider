@@ -7,7 +7,7 @@ from yeeyan.items import YeeyanItem
 class YeeyanSpiderSpider(BaseSpider):
     name = 'yeeyan_spider'
     allowed_domains = ['yeeyan.org']
-    start_urls = ["http://article.yeeyan.org/list_articles/510?&page=777"]
+    start_urls = ["http://article.yeeyan.org/list_a"]
     count = 0
 
     def parse(self, response):
@@ -66,5 +66,3 @@ class YeeyanSpiderSpider(BaseSpider):
         item['category'] = hxs.x('//p[@class="jxa_map"]/text()').extract()[1].split()[1]
         item['content_html'] = hxs.x('//div[@class="jxa_content"]').extract()[0]
         return item
-
-

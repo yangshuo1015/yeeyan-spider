@@ -4,10 +4,10 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 import os
-import sys
 import sqlite3
 from scrapy import log
 from scrapy import signals
+from scrapy.exceptions import *
 from scrapy.xlib.pydispatch import dispatcher
 
 class YeeyanPipeline(object):
@@ -40,14 +40,14 @@ class YeeyanPipeline(object):
             if self.exist_count==100:
                 self.con.commit()
                 self.con.close()
-                sys.exit()
+                os.abort()
         else:
             self.count+=1
             if self.count==100:
                 self.con.commit()
                 self.count=0
             log.msg('get passage %s,%s'%(title,release_time),level=log.INFO)
-        
+
     def spider_opened(self):
         if os.path.exists(self.file_path):
             self.con = sqlite3.connect(self.file_path)
